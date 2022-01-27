@@ -1,57 +1,41 @@
-var DetectSquares = function() {
-    this.points = {}
-};
-
-DetectSquares.prototype.add = function(point) {
-    const name = point[0]+"/"+point[1]
-    if(name in this.points){this.points[name].count+=1}
-    else {this.points[name] = {count:1,value:point}}
-};
-
-DetectSquares.prototype.count = function(point) {
-    const X = []
-    const Y = []
-    let cur
-    for(let p in this.points)
-    {
-        cur=this.points[p]
-        if(cur.value[0]===point[0] && cur.value[1]!==point[1]) {Y.push(cur)}
-        else if(cur.value[0]!==point[0] && cur.value[1]===point[1]) {X.push(cur)}
-    }
-
+var countValidWords = function(sentence) {
     let res=0
-    let pX
-    let pY
-    for(let x of X)
-    {
-        for(let y of Y)
+    const dict={}
+    for(let i=97; i<=122; i++) {dict[String.fromCharCode(i)]=true}
+    const isValid=function (start,end){
+        let cur
+        let char1=false
+        let char2=false
+        for(let i=start; i<=end; i++)
         {
-            if(Math.abs(x.value[0]-point[0])===Math.abs(y.value[1]-point[1]))
+            cur=sentence[i]
+            if(cur.charCodeAt(0)>=48 && cur.charCodeAt(0)<=57)return
+
+            if(cur==="-")
             {
-                pX=x.value[0]-point[0]+y.value[0]
-                pY=y.value[1]-point[1]+x.value[1]
-                if(pX+"/"+pY in this.points)
-                {res+=(x.count*y.count*this.points[pX+"/"+pY].count)}
+                if(char1 || !((sentence[i-1] in dict) && (sentence[i+1] in dict)))return
+                else {char1=true}
+            }
+
+            if(cur==="!" || cur==="." || cur===",")
+            {
+                if(char2 || i!==end)return
+                else {char2=true}
             }
         }
+        res+=1
+    }
+
+    let s
+    for(let i=0; i<=sentence.length-1; i++)
+    {
+        if((i===0 || sentence[i-1]===" ") && sentence[i]!==" ") {s=i}
+        if((i===sentence.length-1 || sentence[i+1]===" ") && sentence[i]!==" ") {isValid(s,i)}
     }
     return res
 };
-
-const add=function (dest,src)
-{
-    for(let p of src)
-    {dest.add(p)}
-}
-
-const test=new DetectSquares()
-/*for(let p of [[3,10],[11,2],[3,2]]) {test.add(p)}
-console.log(test.count([11, 10]));
-console.log(test.count([14, 8]));
-test.add([11,2])
-console.log(test.count([11, 10]));*/
-const add1=[[5,10],[10,5],[10,10]]
-const add2=[[3,0],[8,0],[8,5]]
-const add3=[[9,0],[9,8],[1,8]]
-add(test,[...add1,...add2,...add3,[0,0],[8,0],[8,8]])
-console.log(test.count([0,8]));
+console.log(countValidWords("alice   is a  girl"));
+console.log(countValidWords("cat and  dog"));
+console.log(countValidWords("!this  1-s b8d!"));
+console.log(countValidWords("alice and  bob are playing stone-game10"));
+console.log(countValidWords("he bought 2 pencils, 3 erasers, and 1  pencil-sharpener."));
