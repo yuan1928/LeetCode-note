@@ -1,41 +1,21 @@
-var countValidWords = function(sentence) {
-    let res=0
-    const dict={}
-    for(let i=97; i<=122; i++) {dict[String.fromCharCode(i)]=true}
-    const isValid=function (start,end){
-        let cur
-        let char1=false
-        let char2=false
-        for(let i=start; i<=end; i++)
-        {
-            cur=sentence[i]
-            if(cur.charCodeAt(0)>=48 && cur.charCodeAt(0)<=57)return
-
-            if(cur==="-")
-            {
-                if(char1 || !((sentence[i-1] in dict) && (sentence[i+1] in dict)))return
-                else {char1=true}
-            }
-
-            if(cur==="!" || cur==="." || cur===",")
-            {
-                if(char2 || i!==end)return
-                else {char2=true}
-            }
-        }
-        res+=1
-    }
-
-    let s
-    for(let i=0; i<=sentence.length-1; i++)
+var highestPeak = function(isWater) {
+    for(let i=0; i<=isWater.length-1; i++)
     {
-        if((i===0 || sentence[i-1]===" ") && sentence[i]!==" ") {s=i}
-        if((i===sentence.length-1 || sentence[i+1]===" ") && sentence[i]!==" ") {isValid(s,i)}
+        for(let j=0; j<=isWater[0].length-1; j++)
+        {isWater[i][j]=isWater[i][j]?0:1}
     }
-    return res
+
+    let directions
+    for(let i=0; i<=isWater.length-1; i++)
+    {
+        for(let j=0; j<=isWater[0].length-1; j++)
+        {
+            directions=[(i-1>=0)?isWater[i-1][j]:Infinity, (i+1<=isWater.length-1)?isWater[i+1][j]:Infinity,
+                        (j-1>=0)?isWater[i][j-1]:Infinity, (j+1<=isWater[0].length-1)?isWater[i][j+1]:Infinity]
+            if(isWater[i][j])
+            {isWater[i][j]=Math.min(...directions.map(height=>(height+1)))}
+        }
+    }
+    return isWater
 };
-console.log(countValidWords("alice   is a  girl"));
-console.log(countValidWords("cat and  dog"));
-console.log(countValidWords("!this  1-s b8d!"));
-console.log(countValidWords("alice and  bob are playing stone-game10"));
-console.log(countValidWords("he bought 2 pencils, 3 erasers, and 1  pencil-sharpener."));
+console.log(highestPeak([[0,0,1],[1,0,0],[0,0,0]]));
