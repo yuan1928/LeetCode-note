@@ -40,3 +40,4 @@ let B=new ListNode(3,common)*/
 let B=new ListNode(1,new ListNode(5))*/
 //let common=new ListNode(1)
 console.log(getIntersectionNode(A, B));
+

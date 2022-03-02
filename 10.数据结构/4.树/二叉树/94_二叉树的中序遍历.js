@@ -26,7 +26,7 @@ var inorderTraversal2 = function(root){
     {
         while (root)
         {
-            stack.push(root)
+            stack.push(root)//存放所有子树左节点
             root=root.left
         }
         root=stack.pop()

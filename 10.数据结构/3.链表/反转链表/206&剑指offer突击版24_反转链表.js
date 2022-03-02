@@ -15,13 +15,13 @@ var reverseList1 = function(head) {
     return res
 };
 let obj=new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4,new ListNode(5,null)))))
-let obj1=new ListNode(1,new ListNode(2,null))
-console.log(reverseList1(obj1));
+//let obj1=new ListNode(1,new ListNode(2,null))
+//console.log(reverseList1(obj1));
 
 var reverseList = function(head) {
     if(!head)return head
 
-    let changed=head//即将反转next指向的节点
+    /*let changed=head//即将反转next指向的节点
     let pointer=null//被changed指向的新链表
     let next//保留改变之前的changed.next
     while (changed)//按原顺序遍历链表节点
@@ -31,7 +31,18 @@ var reverseList = function(head) {
         pointer=changed//更新新链表
         changed=next//更新changed
     }
-    return pointer
+    return pointer*/
+    let cur=head
+    let next=head.next
+    let temp
+    while (next)
+    {
+        temp=next.next
+        next.next=cur
+        cur=next
+        next=temp
+    }
+    return cur
 };
 let obj1=new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4,new ListNode(5)))))
 let obj2=new ListNode(1,new ListNode(2))
