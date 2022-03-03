@@ -17,7 +17,7 @@ var singleNumbers = function(nums) {
 // 根据这一位对所有的数字进行分组。(两个目标数分布于两个组中)
 // 在每个组内进行异或操作，得到两个数字。
 
-var singleNumber = function(nums) {
+/*var singleNumber = function(nums) {
     const backtrack=function (start,end){
         if(start===end || start===end+1)return
         if(end===start+1)
@@ -72,9 +72,22 @@ var singleNumber = function(nums) {
         if(nums[i+1]!==nums[i]){return nums[i]}
         else {i+=3}
     }
-};
+};*/
+
 //考虑数字的二进制形式，对于出现三次的数字，各 二进制位 出现的次数都是 3 的倍数。
 // 因此，统计所有数字的各二进制位中 1 的出现次数，并对 3 求余，结果则为只出现一次的数字。
+var singleNumber = function(nums) {
+    let curSum
+    let res=0
+    for(let i=0; i<=31; i++)
+    {
+        curSum=0
+        for(let num of nums)
+        {curSum+=((num>>i)&1)}
+        res+=((curSum%3)*(Math.pow(2,i)))
+    }
+    return res
+};
 console.log(singleNumber([3, 4, 3, 3]));
 console.log(singleNumber([9, 1, 7, 9, 7, 9, 7]));
 console.log(singleNumber([9, 9, 5, 5, 5, 6, 9]));
