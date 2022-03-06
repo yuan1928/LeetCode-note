@@ -22,7 +22,7 @@
     return res
 };*/
 var findMaxLength = function(nums){
-    let memo={}
+    /*let memo={}
     let cur=0//当前元素‘前缀和’：nums[0,当前元素]中0、1个数相抵后的值
     let res=0
     for(let i=0; i<nums.length; i++)
@@ -32,6 +32,23 @@ var findMaxLength = function(nums){
         else if(memo[cur]!==undefined){res=Math.max(res,i-memo[cur])}//nums[0,当前]-nums[0,memo[cur]]=nums[memo[cur]+1，当前]0、1相消
         //memo[cur]=i
         if(memo[cur]===undefined)memo[cur]=i//memo记录的应该是抵消值为cur的最早的元素 -> nums[memo[cur]+1，当前]尽可能长
+    }
+    return res*/
+
+    nums.forEach((v,k)=>{if(v===0)nums[k]=-1})
+    const memo={}
+    let res=0
+    let cur
+    for(let i=0; i<=nums.length-1; i++)
+    {
+        if(i){cur+=nums[i]}
+        else {cur=nums[0]}
+
+        if(!cur){res=Math.max(res,i+1)}
+        else if(memo[cur]!==undefined){res=Math.max(res,i-memo[cur])}
+
+        if(memo[cur]!==undefined){memo[cur]=Math.min(memo[cur],i)}
+        else {memo[cur]=i}
     }
     return res
 }
