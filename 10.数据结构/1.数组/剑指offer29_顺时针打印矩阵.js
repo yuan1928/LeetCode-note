@@ -1,4 +1,9 @@
 var spiralOrder = function(matrix) {
+    //matrix[m,n]
+    //第i行从matrix[i][i]走，走到matrix[i][n-1-i]停下
+    //开始向下，走到matrix[m-1-i][n-1-i]行停止
+    //开始向左，走到matrix[m-1-i][i]停止
+    //开始向上，走到matrix[i+1][i]停止
     if(matrix.length===0)return matrix
 
     let rowUp=0
@@ -9,11 +14,11 @@ var spiralOrder = function(matrix) {
 
     while (rowUp<=rowDown && colLeft<=colRight)
     {
-        for(let num of matrix[rowUp].slice(colLeft,colRight+1))
+        for(let num of matrix[rowUp].slice(colLeft,colRight+1))//(1)
         {res.push(num)}
         for(let row=rowUp+1; row<rowDown; row++)
         {res.push(matrix[row][colRight])}//注意matrix[rowUp][colRight]不要重复添加
-        if(rowDown>rowUp)
+        if(rowDown>rowUp)//如果rowDown=rowUp，则(1)中已读过了rowDown这一行，此处不必再读
         {
             for(let num of matrix[rowDown].slice(colLeft,colRight+1).reverse())
             {res.push(num)}

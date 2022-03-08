@@ -1,30 +1,58 @@
-var getLeastNumbers1 = function(arr, k) {
+/*const quikSort=function (start, end, arr){
+    if(start>=end)return
+
+    let left=start
+    let right=end
+    while (left<right)
+    {
+        while (left<right && arr[right]>=arr[start]){right-=1}
+        while (left<right && arr[left]<=arr[start]){left+=1}//先right后left，不可颠倒
+        swap(left, right, arr)
+    }
+
+    swap(start, left, arr)
+    quikSort(start, left-1, arr)
+    quikSort(left+1, end, arr)
+}*/
+var getLeastNumbers = function(arr, k) {
     if(arr.length<=k)return arr
 
-    let mins=arr.slice(0,k).sort((a,b)=>(a-b))//从小到大
-    for(let i=k; i<=arr.length-1; i++)
-    {
-        if(arr[i]<=mins[0])
+    let res=[]
+    const quikChoose=function (start, end, arr, k){
+        if(start>=end)
         {
-            mins.pop()
-            mins.unshift(arr[i])
+            res=arr.slice(0,k)
+            return
         }
-        else if(arr[i]>mins[0] && arr[i]<mins[k-1])
+
+        let left=start
+        let right=end
+        while (left<right)
         {
-            for(let j of mins.keys())
-            {
-                if(mins[j]<=arr[i] && arr[i]<=mins[j+1])
-                {
-                    mins.pop()
-                    mins.splice(j+1,0,arr[i])
-                }
-            }
+            while (left<right && arr[right]>=arr[start]){right-=1}
+            while (left<right && arr[left]<=arr[start]){left+=1}//先right后left，不可颠倒
+            swap(left, right, arr)
         }
+
+        swap(start, left, arr)
+        /*if(left>=k-1) {res=arr.slice(0,k)}  如果left>k,只能保证arr.slice(0,left)是前left小，不能保证arr.slice(0,k)是前k小
+        else {quikChoose(left+1, end, arr, k)}*/
+        if(left===k-1)res=arr.slice(0,k)
+        else if(left>k-1)quikChoose(start, left-1, arr, k)
+        else {quikChoose(left+1, end, arr, k)}
     }
-    return mins
+    const swap=function (l, r, arr){
+        let temp=arr[l]
+        arr[l]=arr[r]
+        arr[r]=temp
+    }
+
+    quikChoose(0, arr.length - 1, arr, k)
+    return res
 };
 console.log(getLeastNumbers1([0,1,2,1], 3));
 
+/*
 var getLeastNumbers = function(arr, k){
     if(k===0)return []
     if(arr.length<=k)return arr
@@ -62,7 +90,7 @@ var getLeastNumbers = function(arr, k){
         else if(left<k){return quicChoose(left,tail)}
     }
     return quicChoose(0,arr.length-1)
-}
+}*/
 console.log(getLeastNumbers([0,0,1,2,4,2,2,3,1,4],8))
 console.log(getLeastNumbers([0,0,1,3,4,5,0,7,6,7],9))
 console.log(getLeastNumbers([3,2,1],2))
