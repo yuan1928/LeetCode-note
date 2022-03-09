@@ -51,3 +51,32 @@ p.then(function (res) {
 })
 
 console.log('script end');//4
+
+//--------------------------------------------------------------------------------------------------
+setTimeout(() => { //立即放入宏队列
+    console.log('timeout callback1（）')//3
+    Promise.resolve(3).then(
+        value => { //立即放入微队列
+            console.log('Promise onResolved3()', value)//4
+        }
+    )
+}, 0)//*1
+
+setTimeout(() => { //立即放入宏队列
+    console.log('timeout callback2（）')//5
+}, 0)
+
+Promise.resolve(1).then(
+    value => { //立即放入微队列
+        console.log('Promise onResolved1()', value)//1
+        setTimeout(() => {
+            console.log('timeout callback3（）', value)//6
+        }, 0)
+    }
+)
+
+Promise.resolve(2).then(
+    value => { //立即放入微队列
+        console.log('Promise onResolved2()', value)//2
+    }
+)//*

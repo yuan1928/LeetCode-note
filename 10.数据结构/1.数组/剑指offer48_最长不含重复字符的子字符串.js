@@ -14,7 +14,7 @@ var lengthOfLongestSubstringDP = function(s) {
             dp[i]=i-memo[s[i]]//当前字符s[i]重复、与s[i]重复字符的索引为j=memo[s[i]]->最长不重复子串更新为s.slice(j+1,i)
             for(let c in memo)
             {
-                if(memo[c]>memo[s[i]])//新不重复子串从j开始->memo中早于j的记录都要清空
+                if(memo[c]>memo[s[i]])//新不重复子串从j开始->memo中早于j的记录都要清空->通过索引memo[c]判断c是否早于被s[i]重复的字符出现
                 {newMemo[c]=memo[c]}
             }
             memo=newMemo
@@ -25,7 +25,7 @@ var lengthOfLongestSubstringDP = function(s) {
     return Math.max(...dp)
 };
 var lengthOfLongestSubstringSlideWindow = function(s){
-    if(s.length<=1)return s.length
+    /*if(s.length<=1)return s.length
 
     let left=0
     let right=1
@@ -47,7 +47,25 @@ var lengthOfLongestSubstringSlideWindow = function(s){
             right+=1
         }
     }
-    return Math.max(...memo,res,right-left)
+    return Math.max(...memo,res,right-left)*/
+    let res=0
+    const memo={}
+    let left=0
+    let curChar
+    for(let right=0; right<=s.length-1; right++)
+    {
+        curChar=s[right]
+        if(memo[curChar]){memo[curChar]+=1}
+        else {memo[curChar]=1}
+
+        while (memo[curChar]>=2)
+        {
+            memo[s[left]]-=1
+            left+=1
+        }
+        res=Math.max(res,right-left+1)
+    }
+    return res
 }
 /*console.log(lengthOfLongestSubstring("abcabcbb"));
 console.log(lengthOfLongestSubstring("bbbbb"));

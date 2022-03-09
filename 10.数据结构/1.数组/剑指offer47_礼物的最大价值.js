@@ -6,8 +6,8 @@ var maxValue = function(grid) {
     let m=grid.length-1
     let n=grid[0].length-1
 
-    for(let j=1; j<=n; j++) {grid[0][j]+=grid[0][j-1]}
-    for(let i=1; i<=m; i++) {grid[i][0]+=grid[i-1][0]}
+    for(let j=1; j<=n; j++) {grid[0][j]+=grid[0][j-1]}// first row
+    for(let i=1; i<=m; i++) {grid[i][0]+=grid[i-1][0]}//first col
     for(let i=1; i<=m; i++)
     {
         for(let j=1; j<=n; j++)
