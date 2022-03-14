@@ -3,7 +3,7 @@
 //dp[i][j]=grid[i][j]+min(dp[i-1][j],dp[i][j-1]) (如果dp[i-1][j],dp[i][j-1]都存在)
 
 var minPathSum = function(grid) {
-    var dp=Array(grid.length)
+    /*var dp=Array(grid.length)
     for(let i of grid.keys())
     {dp[i]=[]}
     dp[0][0]=grid[0][0]
@@ -18,7 +18,19 @@ var minPathSum = function(grid) {
         }
     }
 
-    return dp[grid.length-1][grid[0].length-1]
+    return dp[grid.length-1][grid[0].length-1]*/
+    const m=grid.length-1
+    const n=grid[0].length-1
+    for(let i=0; i<=m; i++)
+    {
+        for(let j=0; j<=n; j++)
+        {
+            if (i===0 && j-1>=0){grid[i][j]+=grid[i][j-1]}
+            else if(j===0 && i-1>=0){grid[i][j]+=grid[i-1][j]}
+            else if(i>0 && j>0){grid[i][j]+=Math.min(grid[i-1][j], grid[i][j-1])}
+        }
+    }
+    return grid[m][n]
 };
 grid=[[1,3,1],[1,5,1],[4,2,1]]
 console.log(minPathSum(grid));

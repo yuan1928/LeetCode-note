@@ -8,7 +8,7 @@
 //因此：dp[i][1]=dp[i-1][0]
 
 var numDecodings = function(s) {
-    let dp=Array(s.length)
+    /*let dp=Array(s.length)
     if(s[0]==="0"){return 0}
     else {dp[0]=[1,0]}
 
@@ -27,6 +27,35 @@ var numDecodings = function(s) {
         i+=1
     }
 
-    return dp[dp.length-1][0]+dp[dp.length-1][1]
+    return dp[dp.length-1][0]+dp[dp.length-1][1]*/
+
+    //DFS timeout
+    //let res=0
+    //     const DCF=function (curIdx){
+    //         if(s[curIdx]!=="0")
+    //         {
+    //             if(curIdx===s.length-1)res+=1
+    //             if(curIdx<s.length-1)DCF(curIdx+1)
+    //         }
+    //         if(Number(s.slice(curIdx, curIdx+2))>=10 && Number(s.slice(curIdx, curIdx+2))<=26)
+    //         {
+    //             if(curIdx+1===s.length-1)res+=1
+    //             if(curIdx+1<s.length-1)DCF(curIdx+2)
+    //         }
+    //     }
+    //     DCF(0)
+    //     return res
+    let single=1
+    let both=0
+    let newSingle
+    let newBoth
+    for(let i=1; i<=s.length-1; i++)
+    {
+        newSingle=(s[i]!=="0")?(single+both):0
+        newBoth=(Number(s.slice(i-1, i+1))<=26 && Number(s.slice(i-1, i+1))>=10)?single:0
+        single=newSingle
+        both=newBoth
+    }
+    return single+both
 }
 console.log(numDecodings("1029324"));

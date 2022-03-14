@@ -6,7 +6,7 @@
 //更新dp[i]后，更新maxs，注意如果dp[i]等于maxs[0]或maxs[1]，则不改变maxs[0]或maxs[1]
 //只有当dp[i]大于时，才用dp[i]去更新maxs
 
-var rob = function(nums) {
+/*var rob = function(nums) {
     if(nums.length===1){return nums[0]}
 
     let dp=[nums[0],nums[1]]
@@ -27,10 +27,24 @@ var rob = function(nums) {
     }
     return Math.max(...dp)
 };
-console.log(rob([2,7,9,3,1]));
+console.log(rob([2,7,9,3,1]));*/
 
 //另一种思路：
 //定义一个数组 dp，dp[i] 表示抢劫到第 i 个房子时，可以抢劫的最大数量。我们考虑 dp[i]，
 // 此时可以抢劫的最大数量有两种可能，一种是我们选择不抢劫这个房子，此时累计的金额即为dp[i-1]；
 // 另一种是我们选择抢劫这个房子，那么此前累计的最大金额只能是 dp[i-2]，因为我们不能够抢劫第 i-1 个房子，否则会触发警报机关。
 // 因此本题的状态转移方程为 dp[i] = max(dp[i-1],nums[i-1] + dp[i-2])。
+var rob = function(nums) {
+    let neighborFar=nums[0]
+    let neighborClose=Math.max(nums[0],nums.length>1?nums[1]:0)
+    let cur
+    let max=Math.max(neighborClose, neighborFar)
+    for(let i=2; i<=nums.length-1; i++)
+    {
+        cur=Math.max(nums[i]+neighborFar, neighborClose)
+        max=Math.max(max, cur)
+        neighborFar=neighborClose
+        neighborClose=cur
+    }
+    return max
+};
