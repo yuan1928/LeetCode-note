@@ -1,5 +1,5 @@
 //dp[i]:和为i所需的最小平方数加数个数
-//i=(i-j*j)+j*j -> dp[i]=dp[i-j*j]+1
+//i=(i-j*j)+j*j -> dp[i] = dp[i-j*j]+dp[j*j] = dp[i-j*j]+1
 //dp[0]=0
 
 var numSquares = function(n) {

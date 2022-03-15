@@ -36,7 +36,7 @@ console.log(getMoneyAmount(2));*/
 //本题搜索空间巨大，必须引入记忆化搜索
 
 var getMoneyAmount=function (n){
-    let memo={}
+    /*let memo={}
     const DFS=function (start,end,cur){//DFS(i,j,cur)表示在已有代价cur的基础上加上cost(i,j)最小值
         if(start===end) {return cur}
         if(start+"/"+end in memo)return memo[start+"/"+end]+cur
@@ -63,7 +63,17 @@ var getMoneyAmount=function (n){
         return Math.min(...costs)
     }
 
-    return DFS(1, n, 0)
+    return DFS(1, n, 0)*/
+    const f = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    for (let i = n - 1; i >= 1; i--) {
+        for (let j = i + 1; j <= n; j++) {
+            f[i][j] = j + f[i][j - 1];
+            for (let k = i; k < j; k++) {
+                f[i][j] = Math.min(f[i][j], k + Math.max(f[i][k - 1], f[k + 1][j]));
+            }
+        }
+    }
+    return f[1][n];
 }
 console.log(getMoneyAmount(10));
 console.log(getMoneyAmount(1));
